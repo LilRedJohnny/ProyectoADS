@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sabor a Ti - Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        .screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: #FF9F00;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.5s ease-in-out;
+        }
+
+        /* Splash Screen */
+        .splash-screen {
+            z-index: 3;
+        }
+
+        .splash-screen img {
+            max-width: 250px;
+            height: auto;
+            animation: pulse 2s infinite;
+        }
+
+        /* Login Screen */
+        .login-screen {
+            z-index: 2;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+        }
+
+        .login-container {
+            background-color: white;
+            border-radius: 20px 20px 20px 20px;
+            padding: 30px;
+            transform: translateY(20px);
+            opacity: 0;
+            animation: slideUp 0.5s ease forwards;
+            animation-delay: 0.5s;
+        }
+
+        /* Welcome Screen */
+        .welcome-screen {
+            z-index: 1;
+            opacity: 0;
+            pointer-events: none;
+            flex-direction: column;
+            text-align: center;
+            color: white;
+        }
+
+        .welcome-text {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .cooking-text {
+            font-size: 1.8em;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        /* Main Recipe Screen */
+        .recipe-screen {
+            z-index: 0;
+            opacity: 0;
+            pointer-events: none;
+            background-color: #f5f5f5;
+        }
+
+        /* Elementos de formulario */
+        .logo {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .logo img {
+            max-width: 200px;
+            height: auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 2px solid #FF9F00;
+            border-radius: 25px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .input-field:focus {
+            border-color: #e67e00;
+            box-shadow: 0 0 5px rgba(255, 159, 0, 0.3);
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 12px;
+            background-color: #FF9F00;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 20px 0;
+            transition: all 0.3s ease;
+        }
+
+        .login-button:hover {
+            background-color: #e67e00;
+            transform: translateY(-2px);
+        }
+
+        .register-link {
+            text-align: center;
+            color: #666;
+            text-decoration: none;
+            display: block;
+            transition: color 0.3s ease;
+        }
+
+        .register-link:hover {
+            color: #FF9F00;
+        }
+
+        /* Animaciones */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes slideUp {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInUp {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Pantalla de splash -->
+    <div class="screen splash-screen" id="splashScreen">
+        <img src="Sabor a ti logo.png" alt="Sabor a Ti">
+    </div>
+
+    <!-- Pantalla de login -->
+    <div class="screen login-screen" id="loginScreen">
+        <div class="container">
+            <div class="logo">
+                <img src="Sabor a ti logo.png" alt="Sabor a Ti">
+            </div>
+            <div class="login-container">
+                <h1>Inicia Sesión</h1>
+                <form id="loginForm">
+                    <input type="email" class="input-field" placeholder="Correo" required>
+                    <input type="password" class="input-field" placeholder="Contraseña" required>
+                    <button type="submit" class="login-button">Iniciar Sesión</button>
+                </form>
+                <a href="#" class="register-link">¿No tienes cuenta? Regístrate aquí</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pantalla de bienvenida -->
+    <div class="screen welcome-screen" id="welcomeScreen">
+        <h2 class="welcome-text">Bienvenido Ezequiel</h2>
+        <p class="cooking-text">¿Listo para cocinar?</p>
+    </div>
+
+    <!-- Pantalla principal del recetario -->
+    <div class="screen recipe-screen" id="recipeScreen">
+        <!-- Aquí irá el contenido del recetario -->
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const splashScreen = document.getElementById('splashScreen');
+            const loginScreen = document.getElementById('loginScreen');
+            const welcomeScreen = document.getElementById('welcomeScreen');
+            const recipeScreen = document.getElementById('recipeScreen');
+            const loginForm = document.getElementById('loginForm');
+
+            // Mostrar login después del splash
+            setTimeout(() => {
+                splashScreen.style.opacity = '0';
+                loginScreen.style.opacity = '1';
+                loginScreen.style.pointerEvents = 'auto';
+                
+                setTimeout(() => {
+                    splashScreen.style.display = 'none';
+                }, 500);
+            }, 1500);
+
+            // Manejar el submit del formulario
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Ocultar login
+                loginScreen.style.opacity = '0';
+                loginScreen.style.pointerEvents = 'none';
+
+                // Mostrar pantalla de bienvenida
+                welcomeScreen.style.opacity = '1';
+                welcomeScreen.style.pointerEvents = 'auto';
+
+                // Animar textos de bienvenida
+                const welcomeText = welcomeScreen.querySelector('.welcome-text');
+                const cookingText = welcomeScreen.querySelector('.cooking-text');
+
+                setTimeout(() => {
+                    welcomeText.style.animation = 'fadeInUp 0.5s ease forwards';
+                    
+                    setTimeout(() => {
+                        cookingText.style.animation = 'fadeInUp 0.5s ease forwards';
+                        
+                        // Mostrar pantalla principal después de 2 segundos
+                        setTimeout(() => {
+                            welcomeScreen.style.opacity = '0';
+                            welcomeScreen.style.pointerEvents = 'none';
+                            recipeScreen.style.opacity = '1';
+                            recipeScreen.style.pointerEvents = 'auto';
+                        }, 2000);
+                    }, 500);
+                }, 100);
+            });
+        });
+    </script>
+</body>
+</html>
