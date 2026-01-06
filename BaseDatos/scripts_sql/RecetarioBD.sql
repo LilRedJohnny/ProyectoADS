@@ -1,12 +1,13 @@
-
 CREATE TABLE Usuarios (
     ID_usuario INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
-    alergias TEXT,
+    correo VARCHAR(150) NOT NULL UNIQUE,
+    contrasena VARCHAR(255) NOT NULL,
     preferencias TEXT,
     padecimientos TEXT,
     experiencias TEXT
 );
+
 
 CREATE TABLE Receta (
     ID_receta INT AUTO_INCREMENT PRIMARY KEY,
@@ -28,11 +29,30 @@ CREATE TABLE IngredienteReceta (
     ID_ingrediente INT NOT NULL,
     cantidad DECIMAL(10,2) NOT NULL,
     unidad VARCHAR(20) NOT NULL,
+    UNIQUE (ID_receta, ID_ingrediente),
+    FOREIGN KEY (ID_receta) REFERENCES Receta(ID_receta) ON DELETE CASCADE,
+    FOREIGN KEY (ID_ingrediente) REFERENCES Ingrediente(ID_ingrediente) ON DELETE CASCADE
+);
 
-    FOREIGN KEY (ID_receta) REFERENCES Receta(ID_receta)
-        ON DELETE CASCADE,
-    FOREIGN KEY (ID_ingrediente) REFERENCES Ingrediente(ID_ingrediente)
-        ON DELETE CASCADE
+CREATE TABLE Alergia (
+    ID_alergia INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE UsuarioAlergia (
+    ID_usuario INT NOT NULL,
+    ID_alergia INT NOT NULL,
+    PRIMARY KEY (ID_usuario, ID_alergia),
+    FOREIGN KEY (ID_usuario) REFERENCES Usuarios(ID_usuario) ON DELETE CASCADE,
+    FOREIGN KEY (ID_alergia) REFERENCES Alergia(ID_alergia) ON DELETE CASCADE
+);
+
+CREATE TABLE IngredienteAlergia (
+    ID_ingrediente INT NOT NULL,
+    ID_alergia INT NOT NULL,
+    PRIMARY KEY (ID_ingrediente, ID_alergia),
+    FOREIGN KEY (ID_ingrediente) REFERENCES Ingrediente(ID_ingrediente) ON DELETE CASCADE,
+    FOREIGN KEY (ID_alergia) REFERENCES Alergia(ID_alergia) ON DELETE CASCADE
 );
 
 CREATE TABLE Favorito (
@@ -40,11 +60,8 @@ CREATE TABLE Favorito (
     ID_usuario INT NOT NULL,
     ID_receta INT NOT NULL,
     fecha_guardado DATE NOT NULL,
-
-    FOREIGN KEY (ID_usuario) REFERENCES Usuarios(ID_usuario)
-        ON DELETE CASCADE,
-    FOREIGN KEY (ID_receta) REFERENCES Receta(ID_receta)
-        ON DELETE CASCADE
+    FOREIGN KEY (ID_usuario) REFERENCES Usuarios(ID_usuario) ON DELETE CASCADE,
+    FOREIGN KEY (ID_receta) REFERENCES Receta(ID_receta) ON DELETE CASCADE
 );
 
 CREATE TABLE ListaCompra (
@@ -52,9 +69,7 @@ CREATE TABLE ListaCompra (
     ID_usuario INT NOT NULL,
     nombre VARCHAR(100),
     fecha_creacion DATE NOT NULL,
-
-    FOREIGN KEY (ID_usuario) REFERENCES Usuarios(ID_usuario)
-        ON DELETE CASCADE
+    FOREIGN KEY (ID_usuario) REFERENCES Usuarios(ID_usuario) ON DELETE CASCADE
 );
 
 CREATE TABLE ItemCompra (
@@ -64,11 +79,8 @@ CREATE TABLE ItemCompra (
     cantidad DECIMAL(10,2) NOT NULL,
     comprado BOOLEAN DEFAULT FALSE,
     donde_se_compro VARCHAR(100),
-
-    FOREIGN KEY (ID_lista) REFERENCES ListaCompra(ID_lista)
-        ON DELETE CASCADE,
-    FOREIGN KEY (ID_ingrediente) REFERENCES Ingrediente(ID_ingrediente)
-        ON DELETE CASCADE
+    FOREIGN KEY (ID_lista) REFERENCES ListaCompra(ID_lista) ON DELETE CASCADE,
+    FOREIGN KEY (ID_ingrediente) REFERENCES Ingrediente(ID_ingrediente) ON DELETE CASCADE
 );
 
 CREATE TABLE PlanSemanal (
@@ -76,9 +88,7 @@ CREATE TABLE PlanSemanal (
     ID_usuario INT NOT NULL,
     fecha_inicio DATE NOT NULL,
     fecha_fin DATE NOT NULL,
-
-    FOREIGN KEY (ID_usuario) REFERENCES Usuarios(ID_usuario)
-        ON DELETE CASCADE
+    FOREIGN KEY (ID_usuario) REFERENCES Usuarios(ID_usuario) ON DELETE CASCADE
 );
 
 CREATE TABLE PlanDia (
@@ -87,9 +97,7 @@ CREATE TABLE PlanDia (
     ID_receta INT NOT NULL,
     dia_semana VARCHAR(15) NOT NULL,
     comida VARCHAR(30) NOT NULL,
-
-    FOREIGN KEY (ID_plan) REFERENCES PlanSemanal(ID_plan)
-        ON DELETE CASCADE,
-    FOREIGN KEY (ID_receta) REFERENCES Receta(ID_receta)
-        ON DELETE CASCADE
+    FOREIGN KEY (ID_plan) REFERENCES PlanSemanal(ID_plan) ON DELETE CASCADE,
+    FOREIGN KEY (ID_receta) REFERENCES Receta(ID_receta) ON DELETE CASCADE
 );
+
