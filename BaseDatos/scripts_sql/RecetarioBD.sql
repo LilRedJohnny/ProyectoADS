@@ -1,103 +1,97 @@
-CREATE TABLE Usuarios (
-    ID_usuario INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(100) NOT NULL,
-    correo VARCHAR(150) NOT NULL UNIQUE,
-    contrasena VARCHAR(255) NOT NULL,
-    preferencias TEXT,
-    padecimientos TEXT,
-    experiencias TEXT
+CREATE DATABASE RecetarioBD;
+USE RecetarioBD;
+
+CREATE TABLE usuario (
+  id_usuario INT NOT NULL AUTO_INCREMENT,
+  nombre_usuario VARCHAR(100) NOT NULL,
+  correo VARCHAR(150) NOT NULL,
+  contraseña VARCHAR(255) NOT NULL,
+  tipo_alimentacion VARCHAR(100),
+  Padecimientos VARCHAR(250),
+  Alergias VARCHAR(250),
+  PRIMARY KEY (id_usuario),
+  UNIQUE (correo)
 );
 
-
-CREATE TABLE Receta (
-    ID_receta INT AUTO_INCREMENT PRIMARY KEY,
-    descripcion TEXT,
-    instrucciones TEXT NOT NULL,
-    categoria VARCHAR(50),
-    tiempo INT,
-    utensilios TEXT
+CREATE TABLE receta (
+  id_receta INT NOT NULL AUTO_INCREMENT,
+  Descripcion TEXT,
+  Instrucciones TEXT,
+  Categoria VARCHAR(255),
+  Tiempo INT,
+  Utensilios VARCHAR(255),
+  PRIMARY KEY (id_receta)
 );
 
-CREATE TABLE Ingrediente (
-    ID_ingrediente INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(100) NOT NULL
+CREATE TABLE ingrediente (
+  id_ingrediente INT NOT NULL AUTO_INCREMENT,
+  Nombre VARCHAR(255),
+  PRIMARY KEY (id_ingrediente)
 );
 
-CREATE TABLE IngredienteReceta (
-    ID_ingr_rec INT AUTO_INCREMENT PRIMARY KEY,
-    ID_receta INT NOT NULL,
-    ID_ingrediente INT NOT NULL,
-    cantidad DECIMAL(10,2) NOT NULL,
-    unidad VARCHAR(20) NOT NULL,
-    UNIQUE (ID_receta, ID_ingrediente),
-    FOREIGN KEY (ID_receta) REFERENCES Receta(ID_receta) ON DELETE CASCADE,
-    FOREIGN KEY (ID_ingrediente) REFERENCES Ingrediente(ID_ingrediente) ON DELETE CASCADE
+CREATE TABLE ingredientereceta (
+  id_ingr_rec INT NOT NULL AUTO_INCREMENT,
+  id_receta INT,
+  id_ingrediente INT,
+  Cantidad FLOAT,
+  Unidad VARCHAR(255),
+  PRIMARY KEY (id_ingr_rec),
+  FOREIGN KEY (id_receta) REFERENCES receta(id_receta),
+  FOREIGN KEY (id_ingrediente) REFERENCES ingrediente(id_ingrediente)
 );
 
-CREATE TABLE Alergia (
-    ID_alergia INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(50) NOT NULL
+CREATE TABLE favorito (
+  id_favorito INT NOT NULL AUTO_INCREMENT,
+  id_usuario INT,
+  id_receta INT,
+  fecha_guardado DATETIME,
+  PRIMARY KEY (id_favorito),
+  FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario),
+  FOREIGN KEY (id_receta) REFERENCES receta(id_receta)
 );
 
-CREATE TABLE UsuarioAlergia (
-    ID_usuario INT NOT NULL,
-    ID_alergia INT NOT NULL,
-    PRIMARY KEY (ID_usuario, ID_alergia),
-    FOREIGN KEY (ID_usuario) REFERENCES Usuarios(ID_usuario) ON DELETE CASCADE,
-    FOREIGN KEY (ID_alergia) REFERENCES Alergia(ID_alergia) ON DELETE CASCADE
-);
+INSERT INTO receta (Descripcion, Instrucciones, Categoria, Tiempo, Utensilios) VALUES
+('Crema de aguacate', 'Pele los aguacates, macháquelos y mézclelos con la crema. Añada leche poco a poco. Rectifique sazón y refrigere.', 'Sopa', 30, 'Cacerola, licuadora'),
+('Espagueti con salsa de jitomate y hierbas', 'Prepare la salsa con jitomate y hierbas. Cueza el espagueti y sirva con salsa y queso.', 'Pasta', 45, 'Olla, cacerola'),
+('Crema de espinacas con huevo', 'Cocine espinacas con caldo, agregue crema y queso. Sirva con huevo pochado.', 'Sopa', 40, 'Cacerola'),
+('Sopa de calabacitas con cilantro', 'Licúe calabacitas con cilantro. Sofría cebolla, agregue licuado y caldo.', 'Sopa', 20, 'Licuadora, cacerola'),
+('Coditos con jamón', 'Cueza coditos, sofría jamón con mantequilla, mezcle y hornee con queso.', 'Pasta', 35, 'Olla, horno');
 
-CREATE TABLE IngredienteAlergia (
-    ID_ingrediente INT NOT NULL,
-    ID_alergia INT NOT NULL,
-    PRIMARY KEY (ID_ingrediente, ID_alergia),
-    FOREIGN KEY (ID_ingrediente) REFERENCES Ingrediente(ID_ingrediente) ON DELETE CASCADE,
-    FOREIGN KEY (ID_alergia) REFERENCES Alergia(ID_alergia) ON DELETE CASCADE
-);
+INSERT INTO ingrediente (Nombre) VALUES
+('Aguacate'),
+('Crema'),
+('Leche'),
+('Espagueti'),
+('Jitomate'),
+('Cebolla'),
+('Ajo'),
+('Queso Chihuahua'),
+('Espinaca'),
+('Huevo'),
+('Calabacita'),
+('Cilantro'),
+('Coditos'),
+('Jamón'),
+('Mantequilla');
 
-CREATE TABLE Favorito (
-    ID_favorito INT AUTO_INCREMENT PRIMARY KEY,
-    ID_usuario INT NOT NULL,
-    ID_receta INT NOT NULL,
-    fecha_guardado DATE NOT NULL,
-    FOREIGN KEY (ID_usuario) REFERENCES Usuarios(ID_usuario) ON DELETE CASCADE,
-    FOREIGN KEY (ID_receta) REFERENCES Receta(ID_receta) ON DELETE CASCADE
-);
+INSERT INTO ingredientereceta (id_receta, id_ingrediente, Cantidad, Unidad) VALUES
+(1, 1, 4, 'piezas'),
+(1, 2, 1, 'taza'),
+(1, 3, 4, 'tazas'),
 
-CREATE TABLE ListaCompra (
-    ID_lista INT AUTO_INCREMENT PRIMARY KEY,
-    ID_usuario INT NOT NULL,
-    nombre VARCHAR(100),
-    fecha_creacion DATE NOT NULL,
-    FOREIGN KEY (ID_usuario) REFERENCES Usuarios(ID_usuario) ON DELETE CASCADE
-);
+(2, 4, 200, 'gramos'),
+(2, 5, 6, 'piezas'),
+(2, 6, 1, 'pieza'),
+(2, 7, 1, 'diente'),
+(2, 8, 250, 'gramos'),
 
-CREATE TABLE ItemCompra (
-    ID_item INT AUTO_INCREMENT PRIMARY KEY,
-    ID_lista INT NOT NULL,
-    ID_ingrediente INT NOT NULL,
-    cantidad DECIMAL(10,2) NOT NULL,
-    comprado BOOLEAN DEFAULT FALSE,
-    donde_se_compro VARCHAR(100),
-    FOREIGN KEY (ID_lista) REFERENCES ListaCompra(ID_lista) ON DELETE CASCADE,
-    FOREIGN KEY (ID_ingrediente) REFERENCES Ingrediente(ID_ingrediente) ON DELETE CASCADE
-);
+(3, 9, 0.5, 'kg'),
+(3, 10, 4, 'piezas'),
+(3, 2, 4, 'cucharadas'),
 
-CREATE TABLE PlanSemanal (
-    ID_plan INT AUTO_INCREMENT PRIMARY KEY,
-    ID_usuario INT NOT NULL,
-    fecha_inicio DATE NOT NULL,
-    fecha_fin DATE NOT NULL,
-    FOREIGN KEY (ID_usuario) REFERENCES Usuarios(ID_usuario) ON DELETE CASCADE
-);
+(4, 11, 6, 'piezas'),
+(4, 12, 12, 'ramas'),
 
-CREATE TABLE PlanDia (
-    ID_plan_dia INT AUTO_INCREMENT PRIMARY KEY,
-    ID_plan INT NOT NULL,
-    ID_receta INT NOT NULL,
-    dia_semana VARCHAR(15) NOT NULL,
-    comida VARCHAR(30) NOT NULL,
-    FOREIGN KEY (ID_plan) REFERENCES PlanSemanal(ID_plan) ON DELETE CASCADE,
-    FOREIGN KEY (ID_receta) REFERENCES Receta(ID_receta) ON DELETE CASCADE
-);
-
+(5, 13, 200, 'gramos'),
+(5, 14, 250, 'gramos'),
+(5, 15, 0.75, 'barra');
