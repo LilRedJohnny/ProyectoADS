@@ -15,6 +15,7 @@ CREATE TABLE usuario (
 
 CREATE TABLE receta (
   id_receta INT NOT NULL AUTO_INCREMENT,
+  titulo VARCHAR(40) NOT NULL,
   Descripcion TEXT,
   Instrucciones TEXT,
   Categoria VARCHAR(255),
@@ -50,12 +51,16 @@ CREATE TABLE favorito (
   FOREIGN KEY (id_receta) REFERENCES receta(id_receta)
 );
 
-INSERT INTO receta (Descripcion, Instrucciones, Categoria, Tiempo, Utensilios) VALUES
-('Crema de aguacate', 'Pele los aguacates, macháquelos y mézclelos con la crema. Añada leche poco a poco. Rectifique sazón y refrigere.', 'Sopa', 30, 'Cacerola, licuadora'),
-('Espagueti con salsa de jitomate y hierbas', 'Prepare la salsa con jitomate y hierbas. Cueza el espagueti y sirva con salsa y queso.', 'Pasta', 45, 'Olla, cacerola'),
-('Crema de espinacas con huevo', 'Cocine espinacas con caldo, agregue crema y queso. Sirva con huevo pochado.', 'Sopa', 40, 'Cacerola'),
-('Sopa de calabacitas con cilantro', 'Licúe calabacitas con cilantro. Sofría cebolla, agregue licuado y caldo.', 'Sopa', 20, 'Licuadora, cacerola'),
-('Coditos con jamón', 'Cueza coditos, sofría jamón con mantequilla, mezcle y hornee con queso.', 'Pasta', 35, 'Olla, horno');
+INSERT INTO receta (titulo, Descripcion, Instrucciones, Categoria, Tiempo, Utensilios) VALUES
+('Crema de aguacate', 'Pele los aguacates, macháquelos y mézclelos con la crema. Añada leche poco a poco. Rectifique sazón y refrigere.', 'Pele los aguacates, macháquelos y mézclelos con la crema. Añada leche poco a poco. Rectifique sazón y refrigere.', 'Sopa', 30, 'Cacerola, licuadora'),
+
+('Espagueti con salsa', 'Espagueti con salsa de jitomate y hierbas.', 'Prepare la salsa con jitomate y hierbas. Cueza el espagueti y sirva con salsa y queso.', 'Pasta', 45, 'Olla, cacerola'),
+
+('Crema de espinacas', 'Crema de espinacas con huevo.', 'Cocine espinacas con caldo, agregue crema y queso. Sirva con huevo pochado.', 'Sopa', 40, 'Cacerola'),
+
+('Sopa de calabacitas', 'Sopa de calabacitas con cilantro.', 'Licúe calabacitas con cilantro. Sofría cebolla, agregue licuado y caldo.', 'Sopa', 20, 'Licuadora, cacerola'),
+
+('Coditos con jamón', 'Coditos con jamón y queso.', 'Cueza coditos, sofría jamón con mantequilla, mezcle y hornee con queso.', 'Pasta', 35, 'Olla, horno');
 
 INSERT INTO ingrediente (Nombre) VALUES
 ('Aguacate'),
