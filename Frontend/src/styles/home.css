@@ -1,0 +1,279 @@
+.home-container {
+  padding: 16px;
+  font-family: "Poppins", sans-serif;
+}
+.home-header {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+
+.logo {
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 30px;
+  text-align: center;
+}
+
+.filters {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.filters button {
+  padding: 8px 14px;
+  border-radius: 20px;
+  border: 1px solid #ff7a00;
+  background: white;
+  color: #ff7a00;
+  cursor: pointer;
+}
+
+.filters .active {
+  background: #ff7a00;
+  color: white;
+}
+
+.recipes {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.recipe-card {
+  background-color: #ffffff;
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.recipe-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.fav-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: #ff7a00;
+  border: none;
+  border-radius: 50%;
+  padding: 7px;
+  color: white;
+  cursor: pointer;
+  height: auto;
+  width: auto;
+}
+.fav-btn.active {
+  background: #e91e63 !important; /* Un rosa/rojo para que se note el cambio */
+  color: white;
+}
+
+.fav-btn.active svg {
+  fill: white !important; /* Esto rellena el corazón */
+  stroke: white; /* Esto pinta el borde del corazón */
+}
+.recipe-content {
+  padding: 14px;
+}
+
+.recipe-content h3 {
+  margin: 0;
+}
+
+.recipe-content p {
+  font-size: 14px;
+  color: #555;
+}
+
+.recipe-footer {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0;
+}
+
+.tag {
+  background: #ffe4cc;
+  color: #ff7a00;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+}
+
+.time {
+  font-size: 12px;
+}
+
+.view-btn {
+  width: 100%;
+  padding: 10px;
+  background: #ff7a00;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.filters-time {
+  display: flex;
+  gap: 10px;
+  margin: 10px 0 20px 0;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.filters-time button {
+  padding: 6px 12px;
+  border-radius: 18px;
+  border: 1px solid #ff7a00;
+  background: #fff;
+  color: #ff7a00;
+  font-size: 13px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.filters-time button:hover {
+  background: #ffe4cc;
+}
+
+.filters-time .active {
+  background: #ff7a00;
+  color: white;
+}
+
+/* MENÚ */
+.menu-dropdown {
+  position: absolute;
+  top: 50px;
+  right: 0;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  padding: 10px;
+  z-index: 10;
+}
+
+.menu-dropdown p {
+  margin: 8px 0;
+  cursor: pointer;
+}
+
+/* FAVORITOS */
+.fav-btn.active {
+  background: #ff4d4d;
+}
+
+/* ANIMACIONES */
+.recipe-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.recipe-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.15);
+}
+
+button:active {
+  transform: scale(0.96);
+}
+
+.search-container {
+  position: relative;
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto 20px;
+}
+
+.search-container input {
+  width: 100%;
+  padding: 14px 50px 14px 16px;
+  border-radius: 30px;
+  border: none;
+  font-size: 16px;
+  outline: none;
+}
+
+.search-btn {
+  position: absolute;
+  right: -55px;
+  top: 44%;
+  transform: translateY(-50%);
+  background: #ff9800;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.icon-btn {
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: #333;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* cuando estás en favoritos */
+.icon-btn.active {
+  color: #e91e63; /* rojo/rosa */
+  font-weight: bold;
+}
+
+/* opcional: efecto hover */
+.icon-btn:hover {
+  transform: scale(1.05);
+}
+
+
+
+.search-btn:hover {
+  background: #fb8c00;
+}
+
+
+.empty-state {
+  width: 100%;
+  text-align: center;
+  margin-top: 60px;
+  color: #ff6b6b;
+}
+
+.empty-state p {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin: 10px 0;
+}
+
+.empty-state small {
+  font-size: 1rem;
+  color: #ff9a9a;
+}
+
+.empty-icon {
+  font-size: 3rem;
+  display: block;
+  margin-bottom: 10px;
+}
